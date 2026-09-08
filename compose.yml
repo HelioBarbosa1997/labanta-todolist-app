@@ -11,9 +11,21 @@ services:
       - pg15_data:/var/lib/postgresql/data/
     ports:
       - 5432:5432
-    networks:
-      - network-postgres
+  
+  pgadmin4:
+    image: dpage/pgadmin4:9.2
+    container_name: pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    ports:
+      - 5050:80
+    restart: unless-stopped
+    volumes:
+      - pgadmin-2025:/var/lib/pgadmin
 
 volumes:
   pg15_data:
     name: pg15_data
+  pgadmin-2025:
+    name: pgadmin-2025
