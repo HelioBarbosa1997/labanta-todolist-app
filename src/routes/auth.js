@@ -52,7 +52,7 @@ router.post('/register', async (req, res) => {
 
   } catch (error) {
 
-
+        console.error('Erro no POST /register:', error);
     res.status(500).render('register', {
       error: 'Erro interno do servidor.',
       username
