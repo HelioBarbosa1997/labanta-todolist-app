@@ -4,11 +4,12 @@ services:
     image: postgres:15
     restart: unless-stopped
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
       TZ: "Atlantic/Cape_Verde"
     volumes:
-      - pg15_data:/var/lib/postgresql/data/
+      - pg15_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
   
