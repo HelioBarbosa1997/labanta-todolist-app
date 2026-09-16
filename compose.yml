@@ -14,6 +14,7 @@ services:
       - 5432:5432
     networks:
       - todolist-network
+
   
   pgadmin4:
     image: dpage/pgadmin4:9.2
@@ -26,16 +27,18 @@ services:
     restart: unless-stopped
     volumes:
       - pgadmin-2025:/var/lib/pgadmin
+    networks:
+      - todolist-network
 
   todolist-app:
     container_name: todolist-app
-    #build:
+    build: .
     image: todolist-app:0.0.0
     ports:
       - 3000:3000
     env_file: .env
     networks:
-    - todolist-network
+      - todolist-network
 
 
 volumes:
