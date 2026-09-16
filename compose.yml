@@ -40,15 +40,34 @@ services:
     networks:
       - todolist-network
 
+  sonarqube:
+    image: sonarqube:26.1.0.118079-community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: true
+      SONAR_JDBC_URL: ${SONAR_JDBC_URL}
+      SONAR_JDBC_USERNAME: ${SONAR_JDBC_USERNAME}
+      SONAR_JDBC_PASSWORD: ${SONAR_JDBC_PASSWORD}
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+
+    networks:
+      - todolist-network
 
 volumes:
   pg15_data:
     name: pg15_data
   pgadmin-2025:
     name: pgadmin-2025
+  sonarqube_data:
+    name: sonarqube_data
 
 networks:
   todolist-network:
     name: todolist-network
     external: true
+  network-postgres:
+    name: network-postgres
 
