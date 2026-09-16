@@ -27,8 +27,14 @@ router.post('/tasks', requireAuth, async (req, res) => {
 
 // VULNERÁVEL: qualquer utilizador autenticado vê qualquer tarefa, bastando adivinhar o id (IDOR)
 router.get('/tasks/:id', requireAuth, async (req, res) => {
-  const query = `SELECT tasks.*, users.username AS owner_username FROM tasks JOIN users ON tasks.owner_id = $1 WHERE tasks.id = ${req.params.id}`;
-  const result = await pool.query(query, userId);
+
+  const query = `SELECT tasks.*, users.username AS owner_username 
+                FROM tasks 
+                JOIN users ON tasks.owner_id = users.id 
+                WHERE tasks.id = $1`;
+
+  const result = await pool.query(query, [req.params.id]);
+
   const task = result.rows[0];
   if (!task) {
     return res.status(404).render('task-not-found', { username: req.session.username });
